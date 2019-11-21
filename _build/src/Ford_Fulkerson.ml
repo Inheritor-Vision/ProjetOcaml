@@ -22,21 +22,13 @@ let find_voisin_non_marque graph node lmarque = find_voisin_non_marque_aux lmarq
 let add_list_marque lmarque lelement = List.append lelement lmarque ;;
 
 
-let take_LIFO_marque  list = 
-  match(list) with
-  | x::rest -> (Some x, rest)
-  |[] -> (None,[]) ;;
-
-let ll_maker (x,y) = y;;
-
-let ee_maker (x,y)= x ;;
 
 type flot = int ;;
 
 
 
 let rec parcours_prof graph actual lmarque final = 
-  if(actual = final) then (add_list_marque lmarque [final],  [final])
+  if(actual = final && ((List.mem final lmarque) = false)) then (add_list_marque lmarque [final],  [final])
   else 
     let voisin = find_voisin_non_marque graph actual lmarque in
     if(voisin = []) 

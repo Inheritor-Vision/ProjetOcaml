@@ -28,8 +28,13 @@ let () =
   (* Rewrite the graph that has been read. *)
   let () = write_file outfile ( graph) and intgraph = (gmap graph (fun x -> int_of_string(x)))in
   (*(gmap (add_arc (gmap graph (fun x -> int_of_string(x))) 2 1 100) (fun x -> string_of_int(x)))*)
-  (); match (boucle_FF (intgraph,0,0,5))with 
-  | (a,b,c,d) -> Printf.printf (" flot : %d \n %!") b;;
+  (); match (boucle_FF (intgraph,0,_source,_sink))with 
+  | (a,b,c,d) -> Printf.printf (" flot : %d \n %!") b; export a;;
+
+(* MAIN
+   match (boucle_FF (intgraph,0,0,7))with 
+   | (a,b,c,d) -> Printf.printf (" flot : %d \n %!") b; export a
+*)
 
 (*AFFICHAGE CHEMIN FLOT UPDATED GRAPH
   match (parcours_prof intgraph 0 [] 5) with
