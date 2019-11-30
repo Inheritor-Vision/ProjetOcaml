@@ -70,7 +70,7 @@ let read_schedule graph line n trash = graph
 
 (* place + 2 car il y a la source et le puit *)
 let read_classement graph line n wk rk= 
-  try Scanf.sscanf line "%d %s %d %d" (fun place name wi ri  -> (new_arc (new_node graph (place+2)) n 1 (wk + rk - wi)))
+  try Scanf.sscanf line "%d %s %d %d" (fun place name wi ri  -> (new_arc (new_node graph n) n 1 (wk + rk - wi)))
   with e ->
     Printf.printf "Cannot read team in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
     failwith "from_file"
@@ -78,9 +78,13 @@ let read_classement graph line n wk rk=
 
 let read_data graph line n wk rk= 
 
-  try (read_schedule graph line n (int_of_char line.[0]))
-  with _ -> 
-    read_classement graph line n wk rk
+  try (if ((line.[1] = '/') || (line.[2]='/')) 
+  then (read_classement graph line n wk rk) 
+  else (read_schedule graph line n (int_of_char line.[0])))
+    
+  with e -> 
+    Printf.printf "Cannot read data" ;
+    failwith "from_file"
 
 
 let new_from_file path wk rk= 

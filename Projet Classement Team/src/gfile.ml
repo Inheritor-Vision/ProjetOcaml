@@ -66,11 +66,27 @@ let read_comment graph line =
 
 let init_graph  = (new_node (new_node empty_graph 0) 1)
 
-let read_schedule graph line n trash = graph
+let find_key l v =
+let rec aux l v x = 
+match l with
+|[] -> failwith "find_key error"
+| a::b -> if (a = v) then (x) else (aux b v (x+1))
+in
+aux l v 0
+
+
+let read_schedule graph line n trash = 
+match (find_arc graph 0 n) with
+| None -> 
+try ( 
+  Scanf.sscanf line "%s %s %s" (fun _ team1 team2 ->(new_arc  n ) (new_arc (new_node graph n) 0 n 1))
+  with e ->
+    Printf.printf "Cannot read team in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
+    failwith "from_file"
 
 (* place + 2 car il y a la source et le puit *)
 let read_classement graph line n wk rk= 
-  try Scanf.sscanf line "%d %s %d %d" (fun place name wi ri  -> (new_arc (new_node graph (place+2)) n 1 (wk + rk - wi)))
+  try Scanf.sscanf line "%d %s %d %d" (fun place name wi ri  -> (new_arc (new_node graph n) n 1 (wk + rk - wi)))
   with e ->
     Printf.printf "Cannot read team in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
     failwith "from_file"
@@ -78,12 +94,16 @@ let read_classement graph line n wk rk=
 
 let read_data graph line n wk rk= 
 
-  try (read_schedule graph line n (int_of_char line.[0]))
-  with _ -> 
-    read_classement graph line n wk rk
+  try (if ((line.[1] = '/') || (line.[2]='/')) 
+  then (read_classement graph line n wk rk) 
+  else (read_schedule graph line n (int_of_char line.[0])))
+    
+  with e -> 
+    Printf.printf "Cannot read data" ;
+    failwith "from_file"
 
 
-let new_from_file path wk rk= 
+let new_from_file path wk rk tl= 
   let infile = open_in path in
 
   (* Read all lines until end of file. 

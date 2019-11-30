@@ -45,6 +45,6 @@ let () =
 (*AFFICHAGE D UN CHEMIN
   match (parcours_prof intgraph 0 [] 5) with 
   | (a,b) -> List.iter (fun x -> Printf.printf "%d \n%!" x) b*)
-;;
+
 
 
