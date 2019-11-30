@@ -66,21 +66,45 @@ let read_comment graph line =
 
 let init_graph  = (new_node (new_node empty_graph 0) 1)
 
-let read_schedule graph line n trash = graph
+ 
+(* Attention au +2 car 0 et 1 sont le puit et la source*)
+let find_key l v =
+let rec aux l v x = 
+match l with
+|[] -> failwith "find_key error"
+| a::b -> if (a = v) then (x+2) else (aux b v (x+1))
+in
+aux l v 0
+(*Note Some x finir avec 3 recup de la valeur des arcs a modfier*)
+
+let read_schedule graph line n tl= 
+match (find_arc graph 0 n) with
+| None -> (
+try ( 
+  Scanf.sscanf line "%s %s %s" (fun _ team1 team2 ->
+  ((new_arc (new_arc (new_arc (new_node graph n) 0 n 1) n (find_key tl team1) 1) n (find_key tl team2) 1),tl)))
+  with e ->
+    (Printf.printf "Cannot read team in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
+    failwith "from_file"))
+| Some x -> (try ( 
+  Scanf.sscanf line "%s %s %s" (fun _ team1 team2 ->((new_arc (new_node graph n) 0 n 1),tl)))
+  with e ->
+    Printf.printf "Cannot read team in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
+    failwith "from_file")
 
 (* place + 2 car il y a la source et le puit *)
-let read_classement graph line n wk rk= 
-  try Scanf.sscanf line "%d %s %d %d" (fun place name wi ri  -> (new_arc (new_node graph n) n 1 (wk + rk - wi)))
+let read_classement graph line n wk rk tl= 
+  try Scanf.sscanf line "%d %s %d %d" (fun place name wi ri  ->  if ((wk + rk - wi) < 0) then ((new_node graph n), name::tl)  else ((new_arc (new_node graph n) n 1 (wk + rk - wi)), name::tl))
   with e ->
     Printf.printf "Cannot read team in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
     failwith "from_file"
 
 
-let read_data graph line n wk rk= 
+let read_data graph line n wk rk tl= 
 
   try (if ((line.[1] = '/') || (line.[2]='/')) 
-  then (read_classement graph line n wk rk) 
-  else (read_schedule graph line n (int_of_char line.[0])))
+  then ((read_classement graph line n wk rk tl)) 
+  else (read_schedule graph line n tl))
     
   with e -> 
     Printf.printf "Cannot read data" ;
@@ -92,20 +116,20 @@ let new_from_file path wk rk=
 
   (* Read all lines until end of file. 
    * n is the current node counter. *)
-  let rec loop n graph =
+  let rec loop n graph tl=
     try
       let line = input_line infile in
 
       (* Remove leading and trailing spaces. *)
       let line = String.trim line in
 
-      let (n2, graph2) =
+      let (n2, (graph2,tl)) =
         (* Ignore empty lines *)
-        if line = "" then (n, graph)
-        else if (line.[0] = '%' ) then (n,read_comment graph line)
+        if line = "" then (n, (graph,tl))
+        else if (line.[0] = '%' ) then (n,(read_comment graph line,tl))
 
 
-        else (n,read_data graph line n wk rk)
+        else (n,read_data graph line n wk rk tl)
         (*match line.[0] with
           | 'n' -> (n+1, read_node n graph line)
           | 'e' -> (n, read_arc graph line)
@@ -113,12 +137,12 @@ let new_from_file path wk rk=
           (* It should be a comment, otherwise we complain. *)
           | _ -> (n, read_comment graph line)*)
       in      
-      loop n2 graph2
+      loop n2 graph2 tl
 
     with End_of_file -> graph (* Done *)
   in
 
-  let final_graph = loop 2 init_graph in
+  let final_graph = loop 2 init_graph [] in
 
   close_in infile ;
   final_graph

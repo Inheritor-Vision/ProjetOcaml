@@ -1,2 +1,28 @@
 ### Starting build.
-# Compilation unsuccessful.
+# Target: src/gfile.ml.depends, tags: { extension:ml, file:src/gfile.ml, include, ocaml, ocamldep, quiet, traverse }
+/usr/bin/ocamldep.opt -modules src/gfile.ml > src/gfile.ml.depends
+# Target: src/gfile.mli.depends, tags: { extension:mli, file:src/gfile.mli, include, ocaml, ocamldep, quiet, traverse }
+/usr/bin/ocamldep.opt -modules src/gfile.mli > src/gfile.mli.depends # cached
+# Target: src/graph.mli.depends, tags: { extension:mli, file:src/graph.mli, include, ocaml, ocamldep, quiet, traverse }
+/usr/bin/ocamldep.opt -modules src/graph.mli > src/graph.mli.depends # cached
+# Target: src/graph.cmi, tags: { byte, compile, extension:mli, file:src/graph.mli, include, interf, ocaml, quiet, traverse }
+/usr/bin/ocamlc.opt -c -I src -o src/graph.cmi src/graph.mli # cached
+# Target: src/gfile.cmi, tags: { byte, compile, extension:mli, file:src/gfile.mli, include, interf, ocaml, quiet, traverse }
+/usr/bin/ocamlc.opt -c -I src -o src/gfile.cmi src/gfile.mli # cached
+# Target: src/graph.ml.depends, tags: { extension:ml, file:src/graph.ml, include, ocaml, ocamldep, quiet, traverse }
+/usr/bin/ocamldep.opt -modules src/graph.ml > src/graph.ml.depends # cached
+# Target: src/graph.cmx, tags: { compile, extension:cmx, extension:ml, file:src/graph.cmx, file:src/graph.ml, implem, include, native, ocaml, quiet, traverse }
+/usr/bin/ocamlopt.opt -c -I src -o src/graph.cmx src/graph.ml # cached
+# Target: src/tools.ml.depends, tags: { extension:ml, file:src/tools.ml, include, ocaml, ocamldep, quiet, traverse }
+/usr/bin/ocamldep.opt -modules src/tools.ml > src/tools.ml.depends # cached
+# Target: src/tools.mli.depends, tags: { extension:mli, file:src/tools.mli, include, ocaml, ocamldep, quiet, traverse }
+/usr/bin/ocamldep.opt -modules src/tools.mli > src/tools.mli.depends # cached
+# Target: src/tools.cmi, tags: { byte, compile, extension:mli, file:src/tools.mli, include, interf, ocaml, quiet, traverse }
+/usr/bin/ocamlc.opt -c -I src -o src/tools.cmi src/tools.mli # cached
+# Target: src/tools.cmx, tags: { compile, extension:cmx, extension:ml, file:src/tools.cmx, file:src/tools.ml, implem, include, native, ocaml, quiet, traverse }
+/usr/bin/ocamlopt.opt -c -I src -o src/tools.cmx src/tools.ml # cached
+# Target: src/gfile.cmx, tags: { compile, extension:cmx, extension:ml, file:src/gfile.cmx, file:src/gfile.ml, implem, include, native, ocaml, quiet, traverse }
+/usr/bin/ocamlopt.opt -c -I src -o src/gfile.cmx src/gfile.ml
+# Target: src/gfile.native, tags: { dont_link_with, extension:native, file:src/gfile.native, include, link, native, ocaml, program, quiet, traverse }
+/usr/bin/ocamlopt.opt -I src src/graph.cmx src/tools.cmx src/gfile.cmx -o src/gfile.native # cached
+# Compilation successful.
