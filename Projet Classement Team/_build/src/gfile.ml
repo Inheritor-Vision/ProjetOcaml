@@ -77,41 +77,41 @@ in
 aux l v 0
 (*Note Some x finir avec 3 recup de la valeur des arcs a modfier*)
 
-let read_schedule graph line n tl= 
+let read_schedule graph line n tl namek= 
 match (find_arc graph 0 n) with
 | None -> (
 try ( 
   Scanf.sscanf line "%s %s %s" (fun _ team1 team2 ->
   ((new_arc (new_arc (new_arc (new_node graph n) 0 n 1) n (find_key tl team1) 1) n (find_key tl team2) 1),tl)))
   with e ->
-    (Printf.printf "Cannot read team in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
+    (Printf.printf "Cannot read_schedule None team in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
     failwith "from_file"))
 | Some x -> (try ( 
-  Scanf.sscanf line "%s %s %s" (fun _ team1 team2 ->((new_arc (new_node graph n) 0 n 1),tl)))
+  Scanf.sscanf line "%s %s %s" (fun _ team1 team2 ->
+  ((new_arc (new_arc (new_arc graph 0 n (x+1)) n (find_key tl team1) (x+1)) n (find_key tl team2) (x+1)),tl)))
   with e ->
-    Printf.printf "Cannot read team in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
+    Printf.printf "Cannot read_schedule Some x team in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
     failwith "from_file")
 
 (* place + 2 car il y a la source et le puit *)
-let read_classement graph line n wk rk tl= 
-  try Scanf.sscanf line "%d %s %d %d" (fun place name wi ri  ->  if ((wk + rk - wi) < 0) then ((new_node graph n), name::tl)  else ((new_arc (new_node graph n) n 1 (wk + rk - wi)), name::tl))
+let read_classement graph line n wk rk tl namek= 
+  try Scanf.sscanf line "%s %s %d %d" (fun _ name wi ri  -> if ((wk + rk - wi) < 0) then ((new_node graph n), (List.append tl [name] ))  else ((new_arc (new_node graph n) n 1 (wk + rk - wi)), (List.append tl [name] )))
   with e ->
-    Printf.printf "Cannot read team in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
+    Printf.printf "Cannot read_classement team in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
     failwith "from_file"
 
 
-let read_data graph line n wk rk tl= 
-
-  try (if ((line.[1] = '/') || (line.[2]='/')) 
-  then ((read_classement graph line n wk rk tl)) 
-  else (read_schedule graph line n tl))
+let read_data graph line n wk rk tl namek= 
+  try (if (not((line.[1] = '/') || (line.[2]='/'))) 
+  then ((read_classement graph line n wk rk tl namek)) 
+  else (read_schedule graph line n tl namek))
     
   with e -> 
     Printf.printf "Cannot read data" ;
     failwith "from_file"
 
 
-let new_from_file path wk rk= 
+let new_from_file path wk rk namek= 
   let infile = open_in path in
 
   (* Read all lines until end of file. 
@@ -129,7 +129,12 @@ let new_from_file path wk rk=
         else if (line.[0] = '%' ) then (n,(read_comment graph line,tl))
 
 
-        else (n,read_data graph line n wk rk tl)
+        else (
+          try (if ((Scanf.sscanf line "%s %s %s" (fun a b c  -> (if ((a=namek) || (b=namek) || (c=namek)) then (true) else (false))  ))) then ((n, (graph,tl))) else (((n+1),read_data graph line n wk rk tl namek)))
+          with e ->
+          (Printf.printf "Cannot scan file before read data in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
+          failwith "from_file"))
+          
         (*match line.[0] with
           | 'n' -> (n+1, read_node n graph line)
           | 'e' -> (n, read_arc graph line)

@@ -8,6 +8,7 @@ type path = string
 (* Values are read as strings. *)
 val from_file: path -> string graph
 
+val new_from_file: path -> int -> int -> string -> int graph
 (* Similarly, we write only a string graph.
  * If necessary, use gmap (to be written by you) to prepare the input graph. *)
 val write_file: path -> string graph -> unit

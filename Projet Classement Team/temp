@@ -1,1 +1,11 @@
-Ceci est un 05/12/98 test.
+%Ceci est un comentaire 
+1. Miami_Heats 2 2
+2. Toronto_Warriors 1 2
+3. Chicago_Bulls 2 2
+4. Golden_States_Warriors 1 1
+5. Jean_Claude_Dus 0 1
+
+05/12/10: Miami_Heats Toronto_Warriors
+06/12/10: Miami_Heats Chicago_Bulls
+07/12/10: Toronto_Warriors Jean_Claude_Dus
+08/12/10: Chicago_Bulls Golden_States_Warriors

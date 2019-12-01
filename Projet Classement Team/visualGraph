@@ -2,17 +2,21 @@ digraph finite_state_machine {
 	rankdir=LR;
 	size="8,5"
   node [shape = doublecircle]; 
-  LR_2 LR_5 LR_4 LR_1 LR_3 LR_0 ;
-	node [shape = circle];LR_2 -> LR_3 [ label = "6" ];
-LR_2 -> LR_5 [ label = "4" ];
-LR_2 -> LR_0 [ label = "1" ];
-LR_5 -> LR_2 [ label = "1" ];
-LR_5 -> LR_4 [ label = "3" ];
-LR_5 -> LR_1 [ label = "2" ];
-LR_4 -> LR_5 [ label = "1" ];
-LR_4 -> LR_3 [ label = "3" ];
-LR_1 -> LR_5 [ label = "2" ];
-LR_1 -> LR_0 [ label = "2" ];
-LR_3 -> LR_4 [ label = "5" ];
-LR_3 -> LR_0 [ label = "3" ];
+  LR_5 LR_8 LR_0 LR_6 LR_3 LR_4 LR_7 LR_2 LR_1 ;
+	node [shape = circle];LR_5 -> LR_8 [ label = "1" ];
+LR_8 -> LR_4 [ label = "1" ];
+LR_8 -> LR_0 [ label = "1" ];
+LR_0 -> LR_7 [ label = "1" ];
+LR_6 -> LR_0 [ label = "1" ];
+LR_6 -> LR_2 [ label = "1" ];
+LR_3 -> LR_6 [ label = "1" ];
+LR_4 -> LR_7 [ label = "0" ];
+LR_7 -> LR_0 [ label = "0" ];
+LR_7 -> LR_4 [ label = "1" ];
+LR_7 -> LR_2 [ label = "1" ];
+LR_2 -> LR_6 [ label = "0" ];
+LR_1 -> LR_5 [ label = "1" ];
+LR_1 -> LR_2 [ label = "0" ];
+LR_1 -> LR_4 [ label = "0" ];
+LR_1 -> LR_3 [ label = "1" ];
 }
