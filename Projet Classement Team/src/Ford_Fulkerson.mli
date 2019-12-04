@@ -10,3 +10,5 @@ val var_flot : int graph -> id list -> int
 val update_graph : int graph -> id list -> flot -> int graph
 
 val boucle_FF: (int graph * flot * id * id) -> (int graph * flot * id * id)
+
+val ford_fulkerson: int graph -> id -> id -> flot

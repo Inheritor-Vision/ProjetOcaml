@@ -1,11 +1,21 @@
-%Ceci est un comentaire 
-1. Miami_Heats 2 2
-2. Toronto_Warriors 1 2
-3. Chicago_Bulls 2 2
-4. Golden_States_Warriors 1 1
-5. Jean_Claude_Dus 0 1
+% This is a graph.
 
-05/12/10: Miami_Heats Toronto_Warriors
-06/12/10: Miami_Heats Chicago_Bulls
-07/12/10: Toronto_Warriors Jean_Claude_Dus
-08/12/10: Chicago_Bulls Golden_States_Warriors
+n 0.0 1.0
+n 1.0 1.0
+n 2.0 1.0
+n 3.0 1.0
+n 4.0 1.0
+n 5.0 1.0
+n 6.0 1.0
+
+e 2 1 11
+e 3 1 13
+e 4 1 14
+e 5 2 1
+e 5 4 1
+e 0 5 1
+e 0 6 1
+e 6 2 1
+e 6 4 1
+
+% End of graph

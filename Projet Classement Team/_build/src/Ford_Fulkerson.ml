@@ -87,31 +87,9 @@ let rec boucle_FF (graph,flot,depart,arrive) =
     );;
 
 
-(*let rec parcours_prof graph actual final file lmarque = 
-  if (file = []) 
-  then raise Graph_error("Erreur File vide")
-  else
-  let voisin = find_voisin_non_marque graph actual lmarque in
-    if(voisin = []) 
-    then (false,[])
-    else
-      if(List.mem final voisin) 
-      then (true,[actual;final]) 
-      else 
-        match (take_LIFO_marque (add_list_marque file voisin)) with
-        | (None,_) -> raise Graph_error("Erreur File vide")
-        | (Some x, y) -> 
-          match (parcours_prof graph x final y (add_list_marque l_marque voisin)) with 
-          | (true, chemin) -> (true, x::chemin)
-          | (false, chemin) -> ();;*)
-
-(* init flot a 0, actual a s , final a p, l marque a [], graph a graph , lchemin a [] *)
-(*let rec parcours_largeur graph lmarque actual final flot lchemin = 
-  match(find_voisin_non_marque graph actual lmarque) with
-  | a::rest -> 
-
-    let boucle_FF (graph, flot) = 
-  ;;*)
+let ford_fulkerson graph debut fin = 
+  match (boucle_FF (graph,0,debut,fin))with 
+  | (a,b,c,d) ->  b;
 
 
 

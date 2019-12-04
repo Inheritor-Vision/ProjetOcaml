@@ -1,6 +1,8 @@
 open Gfile
 open Tools
 open Ford_Fulkerson
+open TeamTournament
+
 
 
 let () =
@@ -29,6 +31,8 @@ let () =
 
   (* Rewrite the graph that has been read. *)
   let () = write_file outfile ( gmap graph (fun x -> string_of_int(x))) in
+  let flot = ford_fulkerson graph 0 1 in
   
-  (); match (boucle_FF (graph,0,0,1))with 
-  | (a,b,c,d) -> if (b>0) then (Printf.printf "\nL'équipe %s peut encore gagner le championnat :D \nLe flot est de %d. Le graph a été exporté sous le nom VisualGraph\n\n %!" _namek b) else (Printf.printf "\nL'équipe %s ne peut plus gagner le championnat :( \nLe flot est donc de %d. Le graph a été exporté sous le nom VisualGraph\n\n %!" _namek b); export a;;
+  ();if not (isTeamEliminated graph flot) then (Printf.printf "\nL'équipe %s peut encore gagner le championnat :D \n%!" _namek) else (Printf.printf "\nL'équipe %s ne peut plus gagner le championnat :( \n%!" _namek);
+  Printf.printf "Le flot max de la coupe s/reste: %d \n%!"  (flot_max_coupe_s_rest graph) ;
+  Printf.printf "Le flot max trouvé est de %d \n\n%!" flot;
