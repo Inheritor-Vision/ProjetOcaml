@@ -1,7 +1,9 @@
 Compilation:
+
 	Build gtest.ml ( -> gtest.native)
 
 Execution:
+
 	./gtest.native [source_file] [Team_Name] [Wins_of_the_team] [Matchs_left_to_play] [output_file]
 	
 [source_file]: Chemin relatif du fichier source
