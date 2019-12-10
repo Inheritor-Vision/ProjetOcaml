@@ -26,10 +26,13 @@ let () =
   let graph = from_file infile in
 
   (* Rewrite the graph that has been read. *)
-  let () = write_file outfile ( graph) and intgraph = (gmap graph (fun x -> int_of_string(x)))in
+  let () = write_file (outfile^"_initial") (graph) and intgraph = (gmap graph (fun x -> int_of_string(x)))in
   (*(gmap (add_arc (gmap graph (fun x -> int_of_string(x))) 2 1 100) (fun x -> string_of_int(x)))*)
   (); match (boucle_FF (intgraph,0,_source,_sink))with 
-  | (a,b,c,d) -> Printf.printf (" flot : %d \n %!") b; export a;;
+  | (a,b,c,d) -> Printf.printf ("\nLe flot maximum du noeud %d vers le noeud %d de ce graphe est: %d \n\n%!") _source _sink b;
+  write_file (outfile^"_result") ((gmap a (fun x -> string_of_int(x))));
+  export a (outfile^"_dot_initial");
+  export intgraph (outfile^"_dot_result");;
 
 (* MAIN
    match (boucle_FF (intgraph,0,0,7))with 

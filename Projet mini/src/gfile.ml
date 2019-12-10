@@ -95,8 +95,8 @@ let from_file path =
   close_in infile ;
   final_graph
 
-let export graph = 
-  let ff = open_out "visualGraph" in
+let export graph name = 
+  let ff = open_out name in
   fprintf ff "digraph finite_state_machine {
 	rankdir=LR;
 	size=\"8,5\"
